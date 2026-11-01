@@ -1,0 +1,226 @@
+---
+title: "Taller 3 - Maximización del Beneficio"
+author: 
+date: "`r Sys.Date()`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Miryan Miranda Mattos - Código 2020220020  
+
+Joshua de Jesús Diago Vásquez - Código 2018120014  
+
+Vanesa Cabana Ramirez - Código 2023220029  
+
+# Punto 1: Maximización del Beneficio
+
+Se tiene una empresa en un mercado competitivo cuya función de producción es:
+
+$$
+Y = 100 \ln \left( \frac{L}{2} \right)
+$$
+
+El objetivo es determinar la demanda de trabajo, la producción óptima, la maximización del beneficio y la isobeneficio.
+
+## Paso 1: Función de Beneficio
+
+La función de beneficio se define como:
+
+$$
+\pi = P \cdot Y - W \cdot L
+$$
+
+Sustituyendo la función de producción:
+
+$$
+\pi = P \cdot 100 \ln \left( \frac{L}{2} \right) - W \cdot L
+$$
+
+## Paso 2: Cálculo de \( L^* \)
+
+Para encontrar la cantidad óptima de trabajo, derivamos la función de beneficio respecto a \( L \) e igualamos a cero:
+
+$$
+\frac{d\pi}{dL} = P \cdot \frac{100}{L} - W = 0
+$$
+
+Despejamos \( L^* \):
+
+$$
+L^* = \frac{100P}{W}
+$$
+
+Reemplazando \( P = 10 \) y \( W = 100 \):
+
+$$
+L^* = \frac{100(10)}{100} = 10
+$$
+
+## Paso 3: Cálculo de \( Y^* \)
+
+Sustituyendo \( L^* \) en la función de producción:
+
+$$
+Y^* = 100 \ln \left( \frac{10}{2} \right) = 100 \ln(5)
+$$
+
+Aproximando \( \ln(5) \approx 1.6094 \):
+
+$$
+Y^* \approx 100(1.6094) = 160.94
+$$
+
+## Paso 4: Cálculo del Beneficio Máximo
+
+Sustituyendo \( L^* \) y \( Y^* \) en la función de beneficio:
+
+$$
+\pi^* = 10 \cdot 160.94 - 100 \cdot 10
+$$
+
+$$
+\pi^* = 1609.4 - 1000 = 609.4
+$$
+
+## Paso 5: Función de Isobeneficio
+
+Dejamos la ecuación del beneficio en términos de \( L \) y \( Y \):
+
+$$
+\pi = P \cdot Y - W \cdot L
+$$
+
+Reemplazando los valores de \( P \) y \( W \):
+
+$$
+609.4 = 10Y - 100L
+$$
+
+---
+
+## Asignación de Valores y Evaluación Numérica
+
+Ahora asignamos los valores: \( P = 10 \), \( W = 100 \).
+
+```{r evaluacion}
+P <- 10
+W <- 100
+
+L_optimo <- (100 * P) / W
+Y_optimo <- 100 * log((100 * P) / (2 * W))
+beneficio_max <- P * Y_optimo - W * L_optimo
+
+list(L_optimo = L_optimo, Y_optimo = Y_optimo, beneficio_max = beneficio_max)
+```
+
+---
+
+## Representación Gráfica
+
+```{r grafico, echo=FALSE}
+library(ggplot2)
+L <- seq(1, 50, length.out = 100)
+Y <- 100 * log(L / 2)
+
+ggplot(data.frame(L, Y), aes(x = L, y = Y)) +
+  geom_line(color = "blue") +
+  geom_point(aes(x = L_optimo, y = Y_optimo), color = "red", size = 3) +
+  labs(title = "Función de Producción", x = "Trabajo (L)", y = "Producción (Y)") +
+  theme_minimal()
+```
+---
+
+# Punto 2: Producción con Trabajo y Capital
+
+Se tiene la función de producción:
+
+\[
+Y = 50 L^{1/4} K^{1/5}
+\]
+
+Los precios de los factores son \( w = 2 \) y \( r = 1 \).
+
+## Paso 1: Condiciones de Primer Orden
+
+Derivamos respecto a \( L \) e igualamos a cero:
+
+\[
+P \cdot 50 \cdot \frac{1}{4} L^{-3/4} K^{1/5} = w
+\]
+
+Despejamos \( K \):
+
+\[
+K = \left(\frac{w}{P \cdot 12.5 L^{-3/4}}\right)^{5}
+\]
+
+Derivamos respecto a \( K \) e igualamos a cero:
+
+\[
+P \cdot 50 \cdot \frac{1}{5} L^{1/4} K^{-4/5} = r
+\]
+
+Despejamos \( K \):
+
+\[
+K = \left(\frac{P \cdot 10 L^{1/4}}{r}\right)^{5/4}
+\]
+
+Igualamos ambas ecuaciones:
+\[
+\left(\frac{P \cdot 10 L^{1/4}}{r}\right)^{5/4} = \left(\frac{w}{P \cdot 12.5 L^{-3/4}}\right)^{5}
+\]
+
+Elevamos a la 1/5 en ambos lados y distribuimos a L 
+
+\[
+\left(\frac{P \cdot 10 }{r}\right)^{1/4} \cdot L^{1/8}  = \left(\frac{w}{P \cdot 12.5}\right)\cdot L^{3/4} 
+\]
+
+Despejamos L:
+
+\[
+\left(\frac{P \cdot 10 }{r}\right)^{1/4} \cdot \left(\frac{P \cdot 12.5}{w}\right) = \frac{L^{3/4}}{L^{1/8}} 
+\]
+
+Simplificamos:
+
+\[
+\left(\frac{P \cdot 10 }{r}\right)^{2/5} \cdot \left(\frac{P \cdot 12.5}{w}\right)^{8/5} = L^* 
+\]
+
+Remplazamos en K:
+
+\[
+K^* = \left(\frac{P \cdot 10}{r}\right)^{5/4} \cdot [\left(\frac{P \cdot 10 }{r}\right)^{2/5} \cdot \left(\frac{P \cdot 12.5}{w}\right)^{8/5}]^{5/8}
+\]
+Simplificamos: 
+
+\[
+K^* = \left(\frac{P \cdot 10}{r}\right)^{3/2} \cdot \left(\frac{P \cdot 12.5}{w}\right)
+\]
+
+Suponiendo que P = 10:
+
+```{r}
+w <- 2
+r <- 1
+P <- 10  
+
+# Igualamos ambas ecuaciones y despejamos L
+L_optimo_2 <- (10*P/r)^(2/5)*(25*P/(2*w))^(8/5)
+
+# Sustituimos L_optimo en la ecuación de K
+K_optimo_2 <- (P * 10 * L_optimo_2^(1/4) / r)^(5/4)
+
+# Calculamos la producción óptima Y*
+Y_optimo_2 <- 50 * L_optimo_2^(1/4) * K_optimo_2^(1/5)
+
+# Calculamos el beneficio óptimo
+beneficio_max_2 <- P * Y_optimo_2 - w * L_optimo_2 - r * K_optimo_2
+
+list(L_optimo_2 = L_optimo_2, K_optimo_2 = K_optimo_2, Y_optimo_2 = Y_optimo_2, beneficio_max_2 = beneficio_max_2)
+```
